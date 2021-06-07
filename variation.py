@@ -1,6 +1,5 @@
 import random
-import individual
-
+import individual, myCongif
 
 class TwoPointCrossover:
 
@@ -42,5 +41,33 @@ class TwoPointCrossover:
 
 class Mutation:
 
+    mutationTypes = 2
+
     def swapMutation(self, child):
-        pass
+        bit1 = random.randint(0, len(child.instructionSet) - 1)
+        bit2 = random.randint(0, len(child.instructionSet) - 1)
+        #print("Swapping bit: ",bit1, "and ", bit2)
+        child.instructionSet[bit1], child.instructionSet[bit2] = child.instructionSet[bit2], child.instructionSet[bit1]
+
+        return child
+
+    def reverseMutation(self, child):
+        bit1 = random.randint(0, len(child.instructionSet) - 2)
+        bit2 = random.randint(bit1+1, len(child.instructionSet) - 1)
+
+        mutatedChild = child.instructionSet[0:bit1] + child.instructionSet[bit2: bit1-1: -1] + child.instructionSet[bit2+1:]
+
+        mutatedChild = individual.Individual(mutatedChild)
+
+        return mutatedChild
+
+    def mutateIndividual(self, childToMutate):
+        child = childToMutate
+        type = random.randint(0, self.mutationTypes - 1)
+        if (random.randint(0, 100) < myCongif.Config.MUTATION_PROBABILITY):
+            if (type == 0):
+                child = self.swapMutation(child)
+            if (type == 2):
+                child = self.reverseMutation(child)
+
+        return child

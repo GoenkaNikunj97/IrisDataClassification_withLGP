@@ -54,6 +54,7 @@ class Genotype:
 
     def isChildReadyToPush(self, child,newPopulation):
         crossoverChance = random.randint(0, 100) < myCongif.Config.CROSSOVER_PROBABILITY
+
         if (crossoverChance and (not (child is None)) and (len(newPopulation) < len(self.populationList))):
             return True
         else:
@@ -69,22 +70,16 @@ class Genotype:
 
             child1,child2 = variation.TwoPointCrossover().crossover(parent1, parent2)
 
+            mutationOb = variation.Mutation()
+
             if (self.isChildReadyToPush(child1,newPopulation)):
 
-                mutatedChild = variation.Mutation.swapMutation(child1)
+                mutatedChild = mutationOb.mutateIndividual(child1)
                 newPopulation.append(mutatedChild)
 
             if (self.isChildReadyToPush(child2,newPopulation)):
-                mutatedChild = variation.Mutation.swapMutation(child2)
+
+                mutatedChild = mutationOb.mutateIndividual(child2)
                 newPopulation.append(mutatedChild)
-
-
-
-
-
-
-            if (random.randint(0, 100) < myCongif.Config.CROSSOVER_PROBABILITY):
-                if(len(newPopulation) < len(self.populationList)) and (not (child2 is None)):
-                    newPopulation.append(child2)
 
         return newPopulation
