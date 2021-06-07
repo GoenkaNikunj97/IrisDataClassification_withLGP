@@ -1,5 +1,6 @@
 import random
 import myCongif,individual,variation
+from tqdm import tqdm
 
 class Genotype:
 
@@ -34,7 +35,7 @@ class Genotype:
         print(str(len(self.populationList)) + " individuals created.")
 
     def calculateFitness(self, data, lable):
-        for person in self.populationList:
+        for person in tqdm (self.populationList, desc ="Checking Fitness"):
             correctPrediction = 0
             person.resetFitness()
             for i in range(len(data)):
