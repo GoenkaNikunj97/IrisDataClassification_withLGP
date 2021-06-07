@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OrdinalEncoder
 
 class Initialize:
     def __init__(self, fileName):
@@ -20,6 +21,12 @@ class Initialize:
 
         #test and train split
         self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(X, Y, test_size=0.20, random_state=1, stratify=Y)
+
+        if (self.fileName == "tic-tac-toe.data"):
+            oe = OrdinalEncoder()
+            oe.fit(X)
+            self.X_train = pd.DataFrame(oe.transform(self.X_train))
+            self.X_test = pd.DataFrame(oe.transform(self.X_test))
 
         self.X_train = self.X_train.values.tolist()
         self.X_test = self.X_test.values.tolist()

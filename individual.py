@@ -34,6 +34,7 @@ class Individual:
             if select == 0:
                 source = data[source]
             else:
+                source = source % myCongif.Config.TOTAL_OUTPUT_REGISTER
                 source = self.registers[source]
 
             if operator == 0:

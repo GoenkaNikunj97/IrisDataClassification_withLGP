@@ -1,11 +1,14 @@
 import initializer,genotype
 import random
 from matplotlib import pyplot as plt
+import myCongif
 
 if __name__ == '__main__':
+    fileName = "tic-tac-toe.data"
 
+    #  iris.data ========= tic-tac-toe.data
     #init data
-    modelData = initializer.Initialize("iris.data")
+    modelData = initializer.Initialize(fileName)
 
     #init Population
     genotypeOb = genotype.Genotype()
@@ -13,9 +16,11 @@ if __name__ == '__main__':
     accuracy = list()
     generationCount = 0
     GenerationAccuracy = 0
+    desiredAccuracy = 95
+    if (fileName == "tic-tac-toe.data"):
+        desiredAccuracy = 75
 
-    while (GenerationAccuracy< 95 and generationCount < 250):
-
+    while (GenerationAccuracy< desiredAccuracy and generationCount < 250):
         #shuffle all individual to have randomness
         random.shuffle(genotypeOb.populationList)
 
@@ -30,6 +35,12 @@ if __name__ == '__main__':
         GenerationAccuracy = gapedPopulation[0].fitnessScore
         generationCount += 1
 
+        if (generationCount > myCongif.Config.SAME_NUMBER_OF_ITERATIONS):
+            sublist = accuracy[-(myCongif.Config.SAME_NUMBER_OF_ITERATIONS):]
+
+            if(sublist.count(sublist[0]) == len(sublist)):
+                print("Same Accuracy for last ", myCongif.Config.SAME_NUMBER_OF_ITERATIONS, " iterations")
+                break
 
     mostFitIndividual = genotypeOb.populationList[0]
 
